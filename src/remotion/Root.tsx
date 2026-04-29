@@ -19,6 +19,38 @@ import {
   LowerThirdTemplate,
   LowerThirdTemplateSchema,
 } from "./compositions/LowerThirdTemplate";
+import {
+  CountdownTemplate,
+  CountdownTemplateSchema,
+} from "./compositions/CountdownTemplate";
+import {
+  LogoRevealTemplate,
+  LogoRevealTemplateSchema,
+} from "./compositions/LogoRevealTemplate";
+import {
+  KineticTypography,
+  KineticTypographySchema,
+} from "./compositions/KineticTypography";
+import {
+  AbstractBlobLoop,
+  AbstractBlobLoopSchema,
+} from "./compositions/AbstractBlobLoop";
+import {
+  GlitchTextTemplate,
+  GlitchTextTemplateSchema,
+} from "./compositions/GlitchTextTemplate";
+import {
+  ProgressBarTemplate,
+  ProgressBarTemplateSchema,
+} from "./compositions/ProgressBarTemplate";
+import {
+  DataCounter,
+  DataCounterSchema,
+} from "./compositions/DataCounter";
+import {
+  WaveLoop,
+  WaveLoopSchema,
+} from "./compositions/WaveLoop";
 
 const FPS = 30;
 const LANDSCAPE = { width: 1920, height: 1080 };
@@ -98,6 +130,50 @@ export const RemotionRoot: React.FC = () => {
           })}
           schema={ParticleWaveSchema}
         />
+        <Composition
+          id="AbstractBlob"
+          component={AbstractBlobLoop}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={AbstractBlobLoopSchema.parse({})}
+          schema={AbstractBlobLoopSchema}
+        />
+        <Composition
+          id="AbstractBlob-Warm"
+          component={AbstractBlobLoop}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={AbstractBlobLoopSchema.parse({
+            colors: ["#ff6b6b", "#ee5a24", "#f9ca24", "#ff9ff3"],
+            speed: 0.7,
+            blur: 100,
+          })}
+          schema={AbstractBlobLoopSchema}
+        />
+        <Composition
+          id="WaveLoop"
+          component={WaveLoop}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={WaveLoopSchema.parse({})}
+          schema={WaveLoopSchema}
+        />
+        <Composition
+          id="WaveLoop-Ocean"
+          component={WaveLoop}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={WaveLoopSchema.parse({
+            colors: ["#0077b6", "#0096c7", "#00b4d8", "#48cae4"],
+            backgroundColor: "#03045e",
+            amplitude: 60,
+          })}
+          schema={WaveLoopSchema}
+        />
       </Folder>
 
       <Folder name="Text">
@@ -136,6 +212,68 @@ export const RemotionRoot: React.FC = () => {
             backgroundColors: ["#1a0533", "#2d1b69", "#553c9a"],
           })}
           schema={TextAnimationSchema}
+        />
+        <Composition
+          id="GlitchText"
+          component={GlitchTextTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={GlitchTextTemplateSchema.parse({})}
+          schema={GlitchTextTemplateSchema}
+        />
+        <Composition
+          id="GlitchText-Cyber"
+          component={GlitchTextTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={GlitchTextTemplateSchema.parse({
+            text: "CYBER",
+            glitchColor1: "#00ffff",
+            glitchColor2: "#ff00ff",
+            intensity: 1.5,
+            backgroundColors: ["#0a0a1a", "#111133", "#1a1a44"],
+          })}
+          schema={GlitchTextTemplateSchema}
+        />
+      </Folder>
+
+      <Folder name="Typography">
+        <Composition
+          id="KineticTypography-Spotlight"
+          component={KineticTypography}
+          durationInFrames={6 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={KineticTypographySchema.parse({})}
+          schema={KineticTypographySchema}
+        />
+        <Composition
+          id="KineticTypography-Stack"
+          component={KineticTypography}
+          durationInFrames={6 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={KineticTypographySchema.parse({
+            style: "stack",
+            words: ["Think", "Design", "Build", "Ship"],
+            highlightColor: "#f43f5e",
+          })}
+          schema={KineticTypographySchema}
+        />
+        <Composition
+          id="KineticTypography-Typewriter"
+          component={KineticTypography}
+          durationInFrames={6 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={KineticTypographySchema.parse({
+            style: "typewriter",
+            words: ["The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"],
+            fontSize: 60,
+          })}
+          schema={KineticTypographySchema}
         />
       </Folder>
 
@@ -218,6 +356,130 @@ export const RemotionRoot: React.FC = () => {
             barColor: "#ef4444",
           })}
           schema={LowerThirdTemplateSchema}
+        />
+      </Folder>
+
+      <Folder name="Countdown">
+        <Composition
+          id="Countdown-Circular"
+          component={CountdownTemplate}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={CountdownTemplateSchema.parse({})}
+          schema={CountdownTemplateSchema}
+        />
+        <Composition
+          id="Countdown-Digital"
+          component={CountdownTemplate}
+          durationInFrames={10 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={CountdownTemplateSchema.parse({
+            style: "digital",
+            accentColor: "#00ff88",
+            backgroundColors: ["#0a0a0a", "#111111", "#1a1a1a"],
+          })}
+          schema={CountdownTemplateSchema}
+        />
+        <Composition
+          id="Countdown-Minimal"
+          component={CountdownTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={CountdownTemplateSchema.parse({
+            style: "minimal",
+            from: 5,
+            showParticles: false,
+          })}
+          schema={CountdownTemplateSchema}
+        />
+      </Folder>
+
+      <Folder name="Logo-Reveal">
+        <Composition
+          id="LogoReveal-Minimal"
+          component={LogoRevealTemplate}
+          durationInFrames={4 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={LogoRevealTemplateSchema.parse({})}
+          schema={LogoRevealTemplateSchema}
+        />
+        <Composition
+          id="LogoReveal-Glitch"
+          component={LogoRevealTemplate}
+          durationInFrames={4 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={LogoRevealTemplateSchema.parse({
+            style: "glitch",
+            text: "STUDIO",
+            subtitle: "Digital Agency",
+          })}
+          schema={LogoRevealTemplateSchema}
+        />
+        <Composition
+          id="LogoReveal-Scale"
+          component={LogoRevealTemplate}
+          durationInFrames={4 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={LogoRevealTemplateSchema.parse({
+            style: "scale",
+            text: "DESIGN",
+            subtitle: "Made with passion",
+            accentColor: "#f59e0b",
+          })}
+          schema={LogoRevealTemplateSchema}
+        />
+      </Folder>
+
+      <Folder name="Overlays">
+        <Composition
+          id="ProgressBar"
+          component={ProgressBarTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={ProgressBarTemplateSchema.parse({})}
+          schema={ProgressBarTemplateSchema}
+        />
+        <Composition
+          id="ProgressBar-Circle"
+          component={ProgressBarTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={ProgressBarTemplateSchema.parse({
+            style: "circle",
+            label: "Progress",
+            barColor: "#10b981",
+          })}
+          schema={ProgressBarTemplateSchema}
+        />
+        <Composition
+          id="ProgressBar-Minimal"
+          component={ProgressBarTemplate}
+          durationInFrames={5 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={ProgressBarTemplateSchema.parse({
+            style: "minimal",
+            label: "",
+            barColor: "#f43f5e",
+          })}
+          schema={ProgressBarTemplateSchema}
+        />
+        <Composition
+          id="DataCounter"
+          component={DataCounter}
+          durationInFrames={9 * FPS}
+          fps={FPS}
+          {...LANDSCAPE}
+          defaultProps={DataCounterSchema.parse({})}
+          schema={DataCounterSchema}
         />
       </Folder>
     </>

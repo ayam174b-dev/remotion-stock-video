@@ -54,7 +54,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
           : style === "snow"
             ? (0.3 + rand() * 0.7) * speed
             : (rand() - 0.5) * 2 * speed,
-      opacity: 0.3 + rand() * 0.7,
+      opacity: Math.round((0.3 + rand() * 0.7) * 1000) / 1000,
       delay: rand() * 60,
     }));
   }, [count, width, height, maxSize, minSize, speed, style, seed]);
@@ -84,7 +84,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
 
           const twinkle =
             style === "bokeh"
-              ? 0.5 + 0.5 * Math.sin(time * 2 + i * 1.7)
+              ? Math.round((0.5 + 0.5 * Math.sin(time * 2 + i * 1.7)) * 1000) / 1000
               : particle.opacity;
 
           return (

@@ -39,12 +39,20 @@ const Home: NextPage = () => {
             menit.
           </p>
         </div>
-        <Link
-          href="/editor"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium transition-colors"
-        >
-          Open Editor →
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/playground"
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-medium transition-colors"
+          >
+            Code Playground →
+          </Link>
+          <Link
+            href="/editor"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium transition-colors"
+          >
+            Open Editor →
+          </Link>
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8">

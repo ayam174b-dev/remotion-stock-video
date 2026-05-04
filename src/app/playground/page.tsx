@@ -77,6 +77,20 @@ function compileUserCode(code: string): CompileResult {
   }
 }
 
+type VideoFormat = "mp4" | "mov";
+type QualityPreset = "low" | "medium" | "high";
+
+const FORMAT_OPTIONS: { value: VideoFormat; label: string; maxSize: string }[] = [
+  { value: "mp4", label: "MP4 (H.264)", maxSize: "20 MB" },
+  { value: "mov", label: "MOV (ProRes)", maxSize: "100 MB" },
+];
+
+const QUALITY_OPTIONS: { value: QualityPreset; label: string }[] = [
+  { value: "low", label: "Low" },
+  { value: "medium", label: "Medium" },
+  { value: "high", label: "High" },
+];
+
 type RenderStatus = "idle" | "rendering" | "done" | "error";
 
 const PlaygroundPage: NextPage = () => {
@@ -95,6 +109,8 @@ const PlaygroundPage: NextPage = () => {
   });
   const [renderStatus, setRenderStatus] = useState<RenderStatus>("idle");
   const [renderMessage, setRenderMessage] = useState("");
+  const [videoFormat, setVideoFormat] = useState<VideoFormat>("mp4");
+  const [quality, setQuality] = useState<QualityPreset>("medium");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const doCompile = useCallback((src: string) => {
@@ -145,6 +161,8 @@ const PlaygroundPage: NextPage = () => {
           durationInFrames,
           width: aspectRatio.width,
           height: aspectRatio.height,
+          format: videoFormat,
+          quality,
         }),
       });
 
@@ -159,14 +177,18 @@ const PlaygroundPage: NextPage = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "animation.mp4";
+      a.download = `animation.${videoFormat === "mov" ? "mov" : "mp4"}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
+      const sizeMB = (blob.size / (1024 * 1024)).toFixed(1);
+
       setRenderStatus("done");
-      setRenderMessage("Video berhasil di-render dan di-download!");
+      setRenderMessage(
+        `Video berhasil di-render (${sizeMB} MB) dan di-download!`,
+      );
       setTimeout(() => setRenderStatus("idle"), 3000);
     } catch (err: unknown) {
       setRenderStatus("error");
@@ -174,7 +196,7 @@ const PlaygroundPage: NextPage = () => {
         err instanceof Error ? err.message : "Terjadi kesalahan saat render",
       );
     }
-  }, [code, compileResult.ok, durationInFrames, aspectRatio]);
+  }, [code, compileResult.ok, durationInFrames, aspectRatio, videoFormat, quality]);
 
   const ErrorFallback = useMemo(() => {
     if (compileResult.ok) return null;
@@ -281,6 +303,30 @@ const PlaygroundPage: NextPage = () => {
             </button>
           )}
 
+          <select
+            value={videoFormat}
+            onChange={(e) => setVideoFormat(e.target.value as VideoFormat)}
+            className="bg-white/10 border border-white/20 rounded px-2 py-1 text-white text-xs"
+          >
+            {FORMAT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={quality}
+            onChange={(e) => setQuality(e.target.value as QualityPreset)}
+            className="bg-white/10 border border-white/20 rounded px-2 py-1 text-white text-xs"
+          >
+            {QUALITY_OPTIONS.map((q) => (
+              <option key={q.value} value={q.value}>
+                {q.label}
+              </option>
+            ))}
+          </select>
+
           <button
             onClick={handleRender}
             disabled={!compileResult.ok || renderStatus === "rendering"}
@@ -290,7 +336,9 @@ const PlaygroundPage: NextPage = () => {
                 : "bg-emerald-600 hover:bg-emerald-500 text-white"
             }`}
           >
-            {renderStatus === "rendering" ? "Rendering..." : "Render MP4"}
+            {renderStatus === "rendering"
+              ? "Rendering..."
+              : `Render ${videoFormat.toUpperCase()}`}
           </button>
         </div>
       </header>
@@ -413,6 +461,9 @@ const PlaygroundPage: NextPage = () => {
               <code className="text-indigo-400">interpolate</code>,{" "}
               <code className="text-indigo-400">spring</code>,{" "}
               <code className="text-indigo-400">useVideoConfig</code>
+            </p>
+            <p className="text-white/30">
+              Max file size: MP4 ≤ 20 MB, MOV ≤ 100 MB
             </p>
           </div>
         </div>
